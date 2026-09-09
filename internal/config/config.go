@@ -23,7 +23,8 @@ type HttpServerConfig struct {
 func MustLoad() *Config {
 	cfgPath := os.Getenv("CONFIG_PATH")
 	if cfgPath == "" {
-		log.Fatal("config path not exists")
+		log.Printf("config path not exists, set default local config")
+		cfgPath = "./config/local.yaml"
 	}
 
 	if _, err := os.Stat(cfgPath); os.IsNotExist(err) {
