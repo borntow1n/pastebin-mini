@@ -20,7 +20,7 @@ type HttpServerConfig struct {
 	TimeoutIdle time.Duration `yaml:"timeout_idle"`
 }
 
-func mustLoad() *Config {
+func MustLoad() *Config {
 	cfgPath := os.Getenv("CONFIG_PATH")
 	if cfgPath == "" {
 		log.Fatal("config path not exists")
