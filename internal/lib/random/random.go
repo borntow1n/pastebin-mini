@@ -14,3 +14,10 @@ func NewRandomString(lenght int) string {
 
 	return string(alias)
 }
+
+func NewRandomNum(fnum int, snum int) int {
+
+	n := rand.IntN(snum) + fnum
+
+	return n
+}
