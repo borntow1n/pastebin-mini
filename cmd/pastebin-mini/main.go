@@ -17,8 +17,6 @@ func main() {
 		logger.Error("failed to initialisation database")
 	}
 
-	logger.Debug("test")
-
 }
 
 func setupLogger(env string) *slog.Logger {
