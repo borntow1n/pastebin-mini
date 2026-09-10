@@ -17,7 +17,6 @@ func main() {
 		logger.Error("failed to initialisation database")
 	}
 
-	db.SaveTEXT("test")
 	logger.Debug("test")
 
 }
