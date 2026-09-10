@@ -2,6 +2,7 @@ package sqlite
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
 
 	"github.com/borntow1n/pastebin-mini/internal/lib/random"
@@ -27,11 +28,12 @@ func New(storagePath string) (*Storage, error) {
 			text TEXT NOT NULL);
 			CREATE INDEX IF NOT EXISTS idx_alias ON url(alias);
 		`)
-	defer stmt.Close()
+
 	if err != nil {
 		fmt.Errorf("%s:%w", op, err)
 	}
 	_, err = stmt.Exec()
+	defer stmt.Close()
 	if err != nil {
 		fmt.Errorf("%s:%w", op, err)
 	}
@@ -60,4 +62,27 @@ func (s *Storage) SaveTEXT(textToSave string) (int64, error) {
 		return 0, fmt.Errorf("%s: failed to get last insert id: %w", op, err)
 	}
 	return id, err
+}
+
+func (s *Storage) GetTEXT(alias string) (string, error) {
+	const op = "storage.sqlite.getTEXT"
+
+	stmt, err := s.db.Prepare("SELECT text FROM pastebin WHERE alias = ?")
+	if err != nil {
+		return "", fmt.Errorf("%s: %w", op, err)
+	}
+
+	defer stmt.Close()
+
+	var resTEXT string
+
+	err = stmt.QueryRow(alias).Scan(&resTEXT)
+	if errors.Is(err, sql.ErrNoRows) {
+		return "", fmt.Errorf("Text not found")
+	}
+	if err != nil {
+		return "", fmt.Errorf("%s: execute statement: %w", op, err)
+	}
+
+	return resTEXT, nil
 }
