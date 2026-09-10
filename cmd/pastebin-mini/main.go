@@ -4,7 +4,7 @@ import (
 	"log/slog"
 	"os"
 
-	"github.com/username/pastebin-mini/internal/config"
+	"github.com/borntow1n/pastebin-mini/internal/config"
 )
 
 func main() {

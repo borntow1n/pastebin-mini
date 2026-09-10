@@ -1,4 +1,4 @@
-module github.com/username/pastebin-mini
+module github.com/borntow1n/pastebin-mini
 
 go 1.26.8
 
