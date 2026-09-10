@@ -5,14 +5,21 @@ import (
 	"os"
 
 	"github.com/borntow1n/pastebin-mini/internal/config"
+	"github.com/borntow1n/pastebin-mini/internal/storage/sqlite"
 )
 
 func main() {
 	cfg := config.MustLoad()
 
 	logger := setupLogger(cfg.Env)
+	db, err := sqlite.New(cfg.StoragePath)
+	if err != nil {
+		logger.Error("failed to initialisation database")
+	}
 
+	db.SaveTEXT("test")
 	logger.Debug("test")
+
 }
 
 func setupLogger(env string) *slog.Logger {
